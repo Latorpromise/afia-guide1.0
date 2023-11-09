@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   },
   email:{
     type: String,
-    required: [true, "Please enter your email address!"],
+    required: [true, "Please enter your email!"],
   },
   password:{
     type: String,
@@ -47,14 +47,14 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
   avatar:{
-    // public_id: {
+    public_id: {
       type: String,
       required: true,
-    // },
-    // url: {
-    //   type: String,
-    //   required: true,
-    // },
+    },
+    url: {
+      type: String,
+      required: true,
+    },
  },
  createdAt:{
   type: Date,

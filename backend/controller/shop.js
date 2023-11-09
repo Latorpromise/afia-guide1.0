@@ -1,57 +1,55 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
-const sendToken = require("../utils/jwtToken");
 const Shop = require("../model/shop");
-const { upload } = require("../multer");
+const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
+const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const sendShopToken = require("../utils/shopToken");
-const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 
 // create shop
-router.post("/create-shop", upload.single("file"), async (req, res, next) => {
+router.post("/create-shop", catchAsyncErrors(async (req, res, next) => {
   try {
     const { email } = req.body;
     const sellerEmail = await Shop.findOne({ email });
     if (sellerEmail) {
-      const filename = req.file.filename;
-      const filePath = `uploads/${filename}`;
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ message: "Error deleting file" });
-        }
-      });
       return next(new ErrorHandler("User already exists", 400));
     }
-    const filename = req.file.filename;
-    const fileUrl = path.join(filename);
+
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+    });
+
 
     const seller = {
       name: req.body.name,
       email: email,
       password: req.body.password,
-      avatar: fileUrl,
+      avatar: {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      },
       address: req.body.address,
       phoneNumber: req.body.phoneNumber,
       zipCode: req.body.zipCode,
     };
+
     const activationToken = createActivationToken(seller);
-    const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
+
+    const activationUrl = `https://eshop-tutorial-pyri.vercel.app/seller/activation/${activationToken}`;
 
     try {
       await sendMail({
         email: seller.email,
-        subject: "Activate your shop",
+        subject: "Activate your Shop",
         message: `Hello ${seller.name}, please click on the link to activate your shop: ${activationUrl}`,
       });
       res.status(201).json({
         success: true,
-        message: `please check your email: - ${seller.email} to activate your shop`,
+        message: `please check your email:- ${seller.email} to activate your shop!`,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -59,7 +57,7 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(error.message, 400));
   }
-});
+}));
 
 // create activation token
 const createActivationToken = (seller) => {
@@ -68,7 +66,7 @@ const createActivationToken = (seller) => {
   });
 };
 
-// activate seller
+// activate user
 router.post(
   "/activation",
   catchAsyncErrors(async (req, res, next) => {
@@ -79,10 +77,10 @@ router.post(
         activation_token,
         process.env.ACTIVATION_SECRET
       );
+
       if (!newSeller) {
         return next(new ErrorHandler("Invalid token", 400));
       }
-
       const { name, email, password, avatar, zipCode, address, phoneNumber } =
         newSeller;
 
@@ -101,6 +99,7 @@ router.post(
         address,
         phoneNumber,
       });
+
       sendShopToken(seller, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -109,7 +108,6 @@ router.post(
 );
 
 // login shop
-
 router.post(
   "/login-shop",
   catchAsyncErrors(async (req, res, next) => {
@@ -117,18 +115,18 @@ router.post(
       const { email, password } = req.body;
 
       if (!email || !password) {
-        return next(new ErrorHandler("Please provide all fields", 400));
+        return next(new ErrorHandler("Please provide the all fields!", 400));
       }
 
       const user = await Shop.findOne({ email }).select("+password");
 
       if (!user) {
-        return next(new ErrorHandler("User doesn't exist!", 400));
+        return next(new ErrorHandler("User doesn't exists!", 400));
       }
 
-      const isPasswordVaild = await user.comparePassword(password);
+      const isPasswordValid = await user.comparePassword(password);
 
-      if (!isPasswordVaild) {
+      if (!isPasswordValid) {
         return next(
           new ErrorHandler("Please provide the correct information", 400)
         );
@@ -150,7 +148,7 @@ router.get(
       const seller = await Shop.findById(req.seller._id);
 
       if (!seller) {
-        return next(new ErrorHandler("User doesn't exist!", 400));
+        return next(new ErrorHandler("User doesn't exists", 400));
       }
 
       res.status(200).json({
@@ -204,24 +202,30 @@ router.get(
 router.put(
   "/update-shop-avatar",
   isSeller,
-  upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
     try {
-      let existsUser = await Shop.findById(req.seller._id);
+      let existsSeller = await Shop.findById(req.seller._id);
 
-      const existAvatarPath = `uploads/${existsUser.avatar}`;
+        const imageId = existsSeller.avatar.public_id;
 
-      fs.unlinkSync(existAvatarPath);
+        await cloudinary.v2.uploader.destroy(imageId);
 
-      const fileUrl = path.join(req.file.filename);
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+          folder: "avatars",
+          width: 150,
+        });
 
-      const seller = await Shop.findByIdAndUpdate(req.seller._id, {
-        avatar: fileUrl,
-      });
+        existsSeller.avatar = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+
+  
+      await existsSeller.save();
 
       res.status(200).json({
         success: true,
-        seller,
+        seller:existsSeller,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -231,30 +235,29 @@ router.put(
 
 // update seller info
 router.put(
-  "/update-user-info",
+  "/update-seller-info",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { name, description, address, phoneNumber, zipCode } = req.body;
 
-      const shop = await Shop.findOne({ email }).select("+password");
+      const shop = await Shop.findOne(req.seller._id);
 
       if (!shop) {
         return next(new ErrorHandler("User not found", 400));
       }
-      
+
       shop.name = name;
-      shop.description = address;
-      shop.address = description;
+      shop.description = description;
+      shop.address = address;
       shop.phoneNumber = phoneNumber;
       shop.zipCode = zipCode;
 
-
-      await usershop.save();
+      await shop.save();
 
       res.status(201).json({
         success: true,
-        user,
+        shop,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -356,6 +359,5 @@ router.delete(
     }
   })
 );
-
 
 module.exports = router;

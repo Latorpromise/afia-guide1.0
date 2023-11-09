@@ -1,16 +1,16 @@
 const express = require("express");
 const { isSeller, isAuthenticated, isAdmin } = require("../middleware/auth");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const router = express.Router();
 const Product = require("../model/product");
-const ErrorHandler = require("../utils/ErrorHandler");
-const { upload } = require("../multer");
+const Order = require("../model/order");
 const Shop = require("../model/shop");
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const cloudinary = require("cloudinary");
+const ErrorHandler = require("../utils/ErrorHandler");
 
 // create product
 router.post(
   "/create-product",
-  upload.array("images"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
@@ -18,10 +18,29 @@ router.post(
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
-        const files = req.files;
-        const imageUrls = files.map((file) => `${file.filename}`);
+        let images = [];
+
+        if (typeof req.body.images === "string") {
+          images.push(req.body.images);
+        } else {
+          images = req.body.images;
+        }
+      
+        const imagesLinks = [];
+      
+        for (let i = 0; i < images.length; i++) {
+          const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: "products",
+          });
+      
+          imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+          });
+        }
+      
         const productData = req.body;
-        productData.images = imageUrls;
+        productData.images = imagesLinks;
         productData.shop = shop;
 
         const product = await Product.create(productData);
@@ -60,12 +79,20 @@ router.delete(
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const product = await Product.findByIdAndDelete(req.params.id);
+      const product = await Product.findById(req.params.id);
 
       if (!product) {
-        return next(new ErrorHandler("Product is not found with this id", 500));
+        return next(new ErrorHandler("Product is not found with this id", 404));
       }    
+
+      for (let i = 0; 1 < product.images.length; i++) {
+        const result = await cloudinary.v2.uploader.destroy(
+          product.images[i].public_id
+        );
+      }
     
+      await product.remove();
+
       res.status(201).json({
         success: true,
         message: "Product Deleted successfully!",
@@ -92,6 +119,7 @@ router.get(
     }
   })
 );
+
 // review for a product
 router.put(
   "/create-new-review",
@@ -149,7 +177,6 @@ router.put(
   })
 );
 
-
 // all products --- for admin
 router.get(
   "/admin-all-products",
@@ -169,5 +196,4 @@ router.get(
     }
   })
 );
-
 module.exports = router;

@@ -11,7 +11,7 @@ router.post(
       amount: req.body.amount,
       currency: "USD",
       metadata: {
-        company: "Afia Guide",
+        company: "Becodemy",
       },
     });
     res.status(200).json({
