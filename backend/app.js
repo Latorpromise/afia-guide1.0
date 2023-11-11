@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 app.use(cors({
-  origin: ['https://afia-guide1-0-hti6.vercel.app',],
+  origin: "http://localhost:3000",
   credentials: true
 }));
 
