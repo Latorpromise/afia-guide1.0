@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name":"afia-guide1.0",
+    "name":"e-shop-tutorial",
     "builds":[
         {"src":"server.js","use":"@vercel/node"}
     ],
