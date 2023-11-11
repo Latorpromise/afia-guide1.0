@@ -1,24 +1,23 @@
-import React, { useEffect } from 'react';
-import LoginPage from '../components/Login/Login.jsx';
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Login from "../components/Login/Login.jsx";
 
-
-const Login = () => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
-   if(isAuthenticated === true) {
-    navigate("/");
-   }
+    if(isAuthenticated === true){
+      navigate("/");
+    }
   }, [])
   
   return (
     <div>
-      <LoginPage />
+        <Login />
     </div>
   )
 }
 
-export default Login
+export default LoginPage;

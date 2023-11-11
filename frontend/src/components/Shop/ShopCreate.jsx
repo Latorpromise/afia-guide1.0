@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { RxAvatar } from "react-icons/rx";
 
 const ShopCreate = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState();
@@ -20,21 +19,17 @@ const ShopCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const config = {
-      headers: { "Content-Type": "multipart/form-data" },
-    };
-    const newForm = new FormData();
-
-    newForm.append("file", avatar);
-    newForm.append("name", name);
-    newForm.append("email", email);
-    newForm.append("password", password);
-    newForm.append("zipCode", zipCode);
-    newForm.append("address", address);
-    newForm.append("phoneNumber", phoneNumber);
 
     axios
-      .post(`${server}/shop/create-shop`, newForm, config)
+      .post(`${server}/shop/create-shop`, {
+        name,
+        email,
+        password,
+        avatar,
+        zipCode,
+        address,
+        phoneNumber,
+      })
       .then((res) => {
         toast.success(res.data.message);
         setName("");
@@ -51,17 +46,25 @@ const ShopCreate = () => {
   };
 
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    setAvatar(file);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
   };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-[35rem]">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Register as a seller
         </h2>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-[35rem]">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
@@ -140,6 +143,7 @@ const ShopCreate = () => {
                 />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -150,7 +154,7 @@ const ShopCreate = () => {
               <div className="mt-1">
                 <input
                   type="number"
-                  name="zipCode"
+                  name="zipcode"
                   required
                   value={zipCode}
                   onChange={(e) => setZipCode(e.target.value)}
@@ -158,6 +162,7 @@ const ShopCreate = () => {
                 />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="password"
@@ -200,7 +205,7 @@ const ShopCreate = () => {
                 <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
                   {avatar ? (
                     <img
-                      src={URL.createObjectURL(avatar)}
+                      src={avatar}
                       alt="avatar"
                       className="h-full w-full object-cover rounded-full"
                     />
@@ -217,24 +222,24 @@ const ShopCreate = () => {
                     type="file"
                     name="avatar"
                     id="file-input"
-                    accept=".jpg,.jpeg,.png"
                     onChange={handleFileInputChange}
                     className="sr-only"
                   />
                 </label>
               </div>
             </div>
+
             <div>
               <button
                 type="submit"
-                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#6604A2] hover:bg-[#7d09c5]"
+                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
                 Submit
               </button>
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Already have an account?</h4>
-              <Link to="/shop-login" className="text-[#6604A2] pl-2">
+              <Link to="/shop-login" className="text-blue-600 pl-2">
                 Sign in
               </Link>
             </div>

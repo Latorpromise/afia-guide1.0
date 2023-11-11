@@ -75,7 +75,7 @@ const AllOrders = () => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "₦ " + item.totalPrice,
+        total: "US$ " + item.totalPrice,
         status: item.status,
       });
     });

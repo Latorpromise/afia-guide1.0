@@ -59,7 +59,7 @@ const AllRefundOrders = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/order/ ${params.id}`}>
+            <Link to={`/order/${params.id}`}>
               <Button>
                 <AiOutlineArrowRight size={20} />
               </Button>
@@ -77,7 +77,7 @@ const AllRefundOrders = () => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "US ₦ " + item.totalPrice,
+        total: "US$ " + item.totalPrice,
         status: item.status,
       });
     });

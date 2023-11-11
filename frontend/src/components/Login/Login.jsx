@@ -27,12 +27,13 @@ const Login = () => {
       .then((res) => {
         toast.success("Login Success!");
         navigate("/");
-        window.location.reload(true);
+        window.location.reload(true); 
       })
       .catch((err) => {
         toast.error(err.response.data.message);
       });
   };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -101,19 +102,19 @@ const Login = () => {
                   name="remember-me"
                   id="remember-me"
                   className="h-4 w-4 text-[ #6604A2] focus:ring-[#7d09c5] border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-              <div className="text-sm">
-                <a
-                  href=".forgot-password"
+                  />
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Remember me
+                  </label>
+                </div>
+                <div className="text-sm">
+                  <a
+                    href=".forgot-password"
                   className="font-medium text-[#6604A2] hover:text-[#7d09c5]"
-                >
+                  >
                   Forgot your password?
                 </a>
               </div>

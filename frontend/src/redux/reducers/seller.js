@@ -1,26 +1,24 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-const intialState = {
+const initialState = {
   isLoading: true,
 };
 
-export const sellerReducer = createReducer(intialState, {
+export const sellerReducer = createReducer(initialState, {
   LoadSellerRequest: (state) => {
     state.isLoading = true;
   },
   LoadSellerSuccess: (state, action) => {
-    state.isAuthenticated = true;
+    state.isSeller = true;
     state.isLoading = false;
     state.seller = action.payload;
   },
   LoadSellerFail: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
-    state.isAuthenticated = false;
+    state.isSeller = false;
   },
-  clearErrors: (state) => {
-    state.error = null;
-  },
+
   // get all sellers ---admin
   getAllSellersRequest: (state) => {
     state.isLoading = true;
@@ -37,6 +35,3 @@ export const sellerReducer = createReducer(intialState, {
     state.error = null;
   },
 });
-
-
-

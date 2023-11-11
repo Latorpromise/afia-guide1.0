@@ -6,10 +6,9 @@ import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
 
-
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);
-  const {success, error } = useSelector((state) => state.products);
+  const { success, error } = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -34,18 +33,29 @@ const CreateProduct = () => {
   }, [dispatch, error, success]);
 
   const handleImageChange = (e) => {
-    e.preventDefault();
-    let files = Array.from(e.target.files);
-    setImages(prevImages => [...prevImages, ...files]);
+    const files = Array.from(e.target.files);
+
+    setImages([]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImages((old) => [...old, reader.result]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
-
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+
     const newForm = new FormData();
 
     images.forEach((image) => {
-      newForm.append("images", image);
+      newForm.set("images", image);
     });
     newForm.append("name", name);
     newForm.append("description", description);
@@ -55,10 +65,21 @@ const CreateProduct = () => {
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
-    dispatch(createProduct(newForm));
+    dispatch(
+      createProduct({
+        name,
+        description,
+        category,
+        tags,
+        originalPrice,
+        discountPrice,
+        stock,
+        shopId: seller._id,
+        images,
+      })
+    );
   };
 
-  
   return (
     <div className="w-[90%] 800px:w-[50%] bg-white  shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
       <h5 className="text-[30px] font-Poppins text-center">Create Product</h5>
@@ -169,7 +190,7 @@ const CreateProduct = () => {
         <br />
         <div>
           <label className="pb-2">
-          Upload Images  <span className="text-red-500">*</span>
+            Upload Images <span className="text-red-500">*</span>
           </label>
           <input
             type="file"
@@ -186,7 +207,7 @@ const CreateProduct = () => {
             {images &&
               images.map((i) => (
                 <img
-                  src={URL.createObjectURL(i)}
+                  src={i}
                   key={i}
                   alt=""
                   className="h-[120px] w-[120px] object-cover m-2"

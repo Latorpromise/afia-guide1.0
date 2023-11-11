@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../../../styles/styles";
-import { brandingData, categoriesData } from "../../../static/data";
 import { useNavigate } from "react-router-dom";
+import { brandingData, categoriesData } from "../../../static/data";
+import styles from "../../../styles/styles";
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Categories = () => {
               <div className="flex items-start" key={index}>
                 {i.icon}
                 <div className="px-3">
-                  <h3 className="font-bold text-sm md:text-base"> {i.title}</h3>
+                  <h3 className="font-bold text-sm md:text-base">{i.title}</h3>
                   <p className="text-xs md:text-sm">{i.Description}</p>
                 </div>
               </div>
@@ -25,14 +25,14 @@ const Categories = () => {
       </div>
 
       <div
-        className={` ${styles.section}  bg-white p-6 rounded-lg mb-12`}
+        className={`${styles.section} bg-white p-6 rounded-lg mb-12`}
         id="categories"
       >
-        <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px] ">
+        <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]">
           {categoriesData &&
             categoriesData.map((i) => {
               const handleSubmit = (i) => {
-                navigate(`/products?category =${i.title}`);
+                navigate(`/products?category=${i.title}`);
               };
               return (
                 <div

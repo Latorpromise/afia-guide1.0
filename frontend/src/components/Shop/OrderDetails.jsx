@@ -26,7 +26,7 @@ const OrderDetails = () => {
   const orderUpdateHandler = async (e) => {
     await axios
       .put(
-        `₦{server}/order/update-order-status/₦{id}`,
+        `${server}/order/update-order-status/${id}`,
         {
           status,
         },
@@ -44,7 +44,7 @@ const OrderDetails = () => {
   const refundOrderUpdateHandler = async (e) => {
     await axios
     .put(
-      `₦{server}/order/order-refund-success/₦{id}`,
+      `${server}/order/order-refund-success/${id}`,
       {
         status,
       },
@@ -63,7 +63,7 @@ const OrderDetails = () => {
 
 
   return (
-    <div className={`py-4 min-h-screen ₦{styles.section}`}>
+    <div className={`py-4 min-h-screen ${styles.section}`}>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
           <BsFillBagFill size={30} color="crimson" />
@@ -71,7 +71,7 @@ const OrderDetails = () => {
         </div>
         <Link to="/dashboard-orders">
           <div
-            className={`₦{styles.button} !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]`}
+            className={`${styles.button} !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]`}
           >
             Order List
           </div>
@@ -94,14 +94,14 @@ const OrderDetails = () => {
         data?.cart.map((item, index) => (
           <div className="w-full flex items-start mb-5">
             <img
-              src={`₦{item.images[0]?.url}`}
+              src={`${item.images[0]?.url}`}
               alt=""
               className="w-[80x] h-[80px]"
             />
             <div className="w-full">
               <h5 className="pl-3 text-[20px]">{item.name}</h5>
               <h5 className="pl-3 text-[20px] text-[#00000091]">
-                ₦{item.discountPrice} x {item.qty}
+                US${item.discountPrice} x {item.qty}
               </h5>
             </div>
           </div>
@@ -109,7 +109,7 @@ const OrderDetails = () => {
 
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
-          Total Price: <strong>₦{data?.totalPrice}</strong>
+          Total Price: <strong>US${data?.totalPrice}</strong>
         </h5>
       </div>
       <br />
@@ -194,7 +194,7 @@ const OrderDetails = () => {
       }
 
       <div
-        className={`₦{styles.button} mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px]`}
+        className={`${styles.button} mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px]`}
         onClick={data?.status !== "Processing refund" ? orderUpdateHandler : refundOrderUpdateHandler}
       >
         Update Status
