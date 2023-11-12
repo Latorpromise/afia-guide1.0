@@ -35,7 +35,7 @@ router.post("/create-user", async (req, res, next) => {
 
     const activationToken = createActivationToken(user);
 
-    const activationUrl = `https://afia-guide1-0-hti6.vercel.app/activation/${activationToken}`;
+    const activationUrl = `https://afia-guide1-0-q6iv.vercel.app/activation/${activationToken}`;
 
     try {
       await sendMail({

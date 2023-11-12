@@ -39,7 +39,7 @@ router.post("/create-shop", catchAsyncErrors(async (req, res, next) => {
 
     const activationToken = createActivationToken(seller);
 
-    const activationUrl = `https://afia-guide1-0-hti6.vercel.app/seller/activation/${activationToken}`;
+    const activationUrl = `https://afia-guide1-0-q6iv.vercel.app/seller/activation/${activationToken}`;
 
     try {
       await sendMail({
