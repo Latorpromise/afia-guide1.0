@@ -216,7 +216,12 @@ const Header = ({ activeHeading }) => {
           </div>
           <div>
             <Link style={{ display: "flex" }} to="/" className="mt-2">
-              <img src={logo} style={{ width: "50px" }} alt="logo"  className="mt-3 cursor-pointer" />
+              <img
+                src={logo}
+                style={{ width: "50px" }}
+                alt="logo"
+                className="mt-3 cursor-pointer"
+              />
               <span className="logo-title-A">Afia</span>{" "}
               <span className="logo-title-G">Guide</span>
             </Link>
@@ -282,7 +287,7 @@ const Header = ({ activeHeading }) => {
                         <Link to={`/product/${Product_name}`}>
                           <div className="flex items-center">
                             <img
-                              src={i.image_Url[0]?.url}
+                              src={`${i.images[0]?.url}`}
                               alt=""
                               className="w-[50px] mr-2"
                             />
