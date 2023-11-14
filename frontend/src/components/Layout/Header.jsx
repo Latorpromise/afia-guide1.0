@@ -15,7 +15,6 @@ import { CgProfile } from "react-icons/cg";
 import DropDown from "./DropDown";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
-import { backend_url } from "../../server";
 import Cart from "../cart/Cart";
 import Wishlist from "../wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
@@ -143,18 +142,20 @@ const Header = ({ activeHeading }) => {
           <div className={`${styles.noramlFlex}`}>
             <Navbar active={activeHeading} />
           </div>
+
           <div className="flex">
             <div className={`${styles.noramlFlex}`}>
               <div
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenWishlist(true)}
               >
-                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%" />
+                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                   {wishlist && wishlist.length}
                 </span>
               </div>
             </div>
+
             <div className={`${styles.noramlFlex}`}>
               <div
                 className="relative cursor-pointer mr-[15px]"
@@ -162,7 +163,7 @@ const Header = ({ activeHeading }) => {
               >
                 <AiOutlineShoppingCart
                   size={30}
-                  color="rgb(255 255 255 / 83%"
+                  color="rgb(255 255 255 / 83%)"
                 />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                   {cart && cart.length}
@@ -190,18 +191,20 @@ const Header = ({ activeHeading }) => {
 
             {/* cart popup */}
             {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+
             {/* wishlist popup */}
             {openWishlist ? (
-              <Wishlist setOpenWishList={setOpenWishlist} />
+              <Wishlist setOpenWishlist={setOpenWishlist} />
             ) : null}
           </div>
         </div>
       </div>
       {/* mobile header */}
       <div
-        className={` ${
+        className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } w-full h-[65px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
+        }
+      w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
       >
         <div className="w-full flex items-center justify-between">
           <div>
@@ -213,7 +216,7 @@ const Header = ({ activeHeading }) => {
           </div>
           <div>
             <Link style={{ display: "flex" }} to="/" className="mt-2">
-              <img src={logo} style={{ width: "50px" }} alt="logo" />
+              <img src={logo} style={{ width: "50px" }} alt="logo"  className="mt-3 cursor-pointer" />
               <span className="logo-title-A">Afia</span>{" "}
               <span className="logo-title-G">Guide</span>
             </Link>
@@ -235,7 +238,8 @@ const Header = ({ activeHeading }) => {
           {/* wishlist popup */}
           {openWishlist ? <Wishlist setOpenWishlist={setOpenWishlist} /> : null}
         </div>
-        {/* Header sidebar */}
+
+        {/* header sidebar */}
         {open && (
           <div
             className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}
@@ -264,9 +268,9 @@ const Header = ({ activeHeading }) => {
                 <input
                   type="search"
                   placeholder="Search Product..."
+                  className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
                   value={searchTerm}
                   onChange={handleSearchChange}
-                  className="h-[40px] w-full px-2 border-[#cb7bfc] border-[2px] rounded-md"
                 />
                 {searchData && (
                   <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
@@ -290,6 +294,7 @@ const Header = ({ activeHeading }) => {
                   </div>
                 )}
               </div>
+
               <Navbar active={activeHeading} />
               <div className={`${styles.button} ml-4 !rounded-[4px]`}>
                 <Link to="/shop-create">
