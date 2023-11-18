@@ -3,7 +3,7 @@ import "../../App.css";
 import logo from "../../static/images/logo.png";
 import { Link } from "react-router-dom";
 import styles from "../../styles/styles";
-import { categoriesData, productData } from "../../static/data";
+import { categoriesData } from "../../static/data";
 import {
   AiOutlineHeart,
   AiOutlineSearch,
@@ -277,14 +277,12 @@ const Header = ({ activeHeading }) => {
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
-                {searchData && (
+                {searchData && searchData.length !== 0 ? (
                   <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
-                    {searchData.map((i) => {
-                      const d = i.name;
-
-                      const Product_name = d.replace(/\s+/g, "-");
-                      return (
-                        <Link to={`/product/${Product_name}`}>
+                    {searchData &&
+                  searchData.map((i, index) => {
+                    return (
+                      <Link to={`/product/${i._id}`}>
                           <div className="flex items-center">
                             <img
                               src={`${i.images[0]?.url}`}
@@ -297,7 +295,7 @@ const Header = ({ activeHeading }) => {
                       );
                     })}
                   </div>
-                )}
+                ): null}
               </div>
 
               <Navbar active={activeHeading} />
