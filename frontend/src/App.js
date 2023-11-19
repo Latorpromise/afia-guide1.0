@@ -61,23 +61,14 @@ import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-const ScrollToTop = ({ children }) => {
-  // Get the current location object
-  const location = useLocation();
-  // Get the history object
-  const history = useHistory();
-
-  // Run this function whenever the location changes
+const ScrollToTop = ({ children, location }) => {
   useEffect(() => {
-    // Scroll to the top of the window
     window.scrollTo(0, 0);
-    // Re-render the page
-    history.go(0);
-  }, [location, history]);
+  }, [location]);
 
-  // Return the children components
   return children;
 };
+
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
