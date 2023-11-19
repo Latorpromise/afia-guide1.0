@@ -65,13 +65,16 @@ const AllEvents = () => {
   ];
 
   const row = [];
+  const formatPrice = (price) => {
+    return '$' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   events &&
     events.forEach((item) => {
       row.push({
         id: item._id,
         name: item.name,
-        price: "₦ " + item.discountPrice,
+        price: formatPrice(item.discountPrice),
         Stock: item.stock,
         sold: item.sold_out,
       });
