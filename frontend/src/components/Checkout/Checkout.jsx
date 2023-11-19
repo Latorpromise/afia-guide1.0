@@ -95,6 +95,9 @@ const Checkout = () => {
   };
 
   const discountPercentenge = couponCodeData ? discountPrice : "";
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   const totalPrice = couponCodeData
     ? (subTotalPrice + shipping - discountPercentenge).toFixed(2)
@@ -125,7 +128,7 @@ const Checkout = () => {
         <div className="w-full 800px:w-[35%] 800px:mt-0 mt-8">
           <CartData
             handleSubmit={handleSubmit}
-            totalPrice={totalPrice}
+            totalPrice={formatPrice(totalPrice)}
             shipping={shipping}
             subTotalPrice={subTotalPrice}
             couponCode={couponCode}

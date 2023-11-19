@@ -15,6 +15,9 @@ const Cart = ({ setOpenCart }) => {
   const removeFromCartHandler = (data) => {
     dispatch(removeFromCart(data));
   };
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.qty * item.discountPrice,
@@ -79,7 +82,7 @@ const Cart = ({ setOpenCart }) => {
                   className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
                 >
                   <h1 className="text-[#fff] text-[18px] font-[600]">
-                    Checkout Now (₦ {totalPrice})
+                    Checkout Now ({formatPrice(totalPrice)})
                   </h1>
                 </div>
               </Link>
@@ -93,6 +96,10 @@ const Cart = ({ setOpenCart }) => {
 
 const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
   const [value, setValue] = useState(data.qty);
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   const totalPrice = data.discountPrice * value;
 
   const increment = (data) => {
@@ -140,7 +147,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
             ${data.discountPrice} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            US${totalPrice}
+            {formatPrice(totalPrice)}
           </h4>
         </div>
         <RxCross1
