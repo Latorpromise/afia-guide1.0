@@ -66,7 +66,7 @@ const AllEvents = () => {
 
   const row = [];
   const formatPrice = (price) => {
-    return '$' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   events &&

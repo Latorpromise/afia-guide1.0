@@ -64,12 +64,16 @@ import { loadStripe } from "@stripe/stripe-js";
 const ScrollToTop = ({ children }) => {
   // Get the current location object
   const location = useLocation();
+  // Get the history object
+  const history = useHistory();
 
   // Run this function whenever the location changes
   useEffect(() => {
     // Scroll to the top of the window
     window.scrollTo(0, 0);
-  }, [location]);
+    // Re-render the page
+    history.go(0);
+  }, [location, history]);
 
   // Return the children components
   return children;
