@@ -61,11 +61,17 @@ import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-const ScrollToTop = ({ children, location }) => {
+const ScrollToTop = ({ children }) => {
+  // Get the current location object
+  const location = useLocation();
+
+  // Run this function whenever the location changes
   useEffect(() => {
+    // Scroll to the top of the window
     window.scrollTo(0, 0);
   }, [location]);
 
+  // Return the children components
   return children;
 };
 
