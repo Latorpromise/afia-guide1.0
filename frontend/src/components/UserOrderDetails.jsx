@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsFillBagFill } from "react-icons/bs";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/styles";
 import { getAllOrdersOfUser } from "../redux/actions/order";
@@ -18,6 +18,8 @@ const UserOrderDetails = () => {
   const [comment, setComment] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [rating, setRating] = useState(1);
+  const navigate = useNavigate();
+
 
   const { id } = useParams();
 
@@ -165,8 +167,7 @@ const UserOrderDetails = () => {
               <div>
                 <div className="pl-3 text-[20px]">{selectedItem?.name}</div>
                 <h4 className="pl-3 text-[20px]">
-                  ₦{selectedItem?.formatPrice(discountPrice)} x{" "}
-                  {selectedItem?.qty}
+                ₦{selectedItem?.discountPrice} x {selectedItem?.qty}
                 </h4>
               </div>
             </div>
@@ -230,7 +231,7 @@ const UserOrderDetails = () => {
 
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
-          Total Price: <strong>₦{data?.formatPrice(totalPrice)}</strong>
+          Total Price: <strong>₦{data?.totalPrice}</strong>
         </h5>
       </div>
       <br />
