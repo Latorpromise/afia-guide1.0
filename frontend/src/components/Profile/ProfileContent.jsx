@@ -261,13 +261,19 @@ const AllOrders = () => {
   ];
 
   const row = [];
+  const formatPrice = (num) => {
+    let [integerPart, decimalPart] = num.toString().split('.');
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
+  
 
   orders &&
     orders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
+        total: "₦" + formatPrice(item.totalPrice),
         status: item.status,
       });
     });
@@ -349,13 +355,18 @@ const AllRefundOrders = () => {
   ];
 
   const row = [];
+  const formatPrice = (num) => {
+    let [integerPart, decimalPart] = num.toString().split('.');
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
 
   eligibleOrders &&
     eligibleOrders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
+        total: "₦" + formatPrice(item.totalPrice),
         status: item.status,
       });
     });
@@ -434,13 +445,18 @@ const TrackOrder = () => {
   ];
 
   const row = [];
+  const formatPrice = (num) => {
+    let [integerPart, decimalPart] = num.toString().split('.');
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
 
   orders &&
     orders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
+        total: "₦" + item.totalPrice,
         status: item.status,
       });
     });

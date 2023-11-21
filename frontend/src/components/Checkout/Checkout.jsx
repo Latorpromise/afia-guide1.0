@@ -49,7 +49,14 @@ const Checkout = () => {
     }
 
     // update local storage with the updated orders array
-    localStorage.setItem("latestOrder", JSON.stringify(orderData));
+    const formatPrice = (num) => {
+      let [integerPart, decimalPart] = num.toString().split('.');
+      integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+    };
+    
+    
+    localStorage.setItem("latestOrder", JSON.stringify(formatPrice(orderData)));
     navigate("/payment");
    }
   };
@@ -132,8 +139,8 @@ const Checkout = () => {
           <CartData
             handleSubmit={handleSubmit}
             totalPrice={formatPrice(totalPrice)}
-            shipping={shipping}
-            subTotalPrice={subTotalPrice}
+            shipping={formatPrice(shipping)}
+            subTotalPrice={formatPrice(subTotalPrice)}
             couponCode={couponCode}
             setCouponCode={setCouponCode}
             discountPercentenge={discountPercentenge}
@@ -321,8 +328,8 @@ const CartData = ({
   return (
     <div className="w-full bg-[#fff] rounded-md p-5 pb-8">
       <div className="flex justify-between">
-        <h3 className="text-[16px] font-[400] text-[#000000a4]">subtotal:</h3>
-        <h5 className="text-[18px] font-[600]">₦{subTotalPrice}</h5>
+        <h3 className="text-[14px] font-[400] text-[#000000a4]">subtotal:</h3>
+        <h5 className="text-[16px] font-[600]">₦{subTotalPrice}</h5>
       </div>
       <br />
       <div className="flex justify-between">
@@ -336,7 +343,7 @@ const CartData = ({
           - {discountPercentenge ? "₦" + discountPercentenge.toString() : null}
         </h5>
       </div>
-      <h5 className="text-[18px] font-[600] text-end pt-3">₦{totalPrice}</h5>
+      <h5 className="text-[16px] font-[600] text-end pt-3">₦{totalPrice}</h5>
       <br />
       <form onSubmit={handleSubmit}>
         <input
