@@ -95,9 +95,12 @@ const Checkout = () => {
   };
 
   const discountPercentenge = couponCodeData ? discountPrice : "";
-  const formatPrice = (price) => {
-    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+  const formatPrice = (num) => {
+    let [integerPart, decimalPart] = num.toString().split('.');
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
+  };
+  
 
   const totalPrice = couponCodeData
     ? (subTotalPrice + shipping - discountPercentenge).toFixed(2)
