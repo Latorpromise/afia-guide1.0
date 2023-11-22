@@ -95,11 +95,6 @@ const Checkout = () => {
   };
 
   const discountPercentenge = couponCodeData ? discountPrice : "";
-  const formatPrice = (num) => {
-    let [integerPart, decimalPart] = num.toString().split('.');
-    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
-  };
   
 
   const totalPrice = couponCodeData
@@ -131,7 +126,7 @@ const Checkout = () => {
         <div className="w-full 800px:w-[35%] 800px:mt-0 mt-8">
           <CartData
             handleSubmit={handleSubmit}
-            totalPrice={formatPrice(totalPrice)}
+            totalPrice={totalPrice}
             shipping={shipping}
             subTotalPrice={subTotalPrice}
             couponCode={couponCode}
