@@ -28,10 +28,6 @@ const UserOrderDetails = () => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
 
-  useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
-  }, [data]);
-
   const data = orders && orders.find((item) => item._id === id);
 
   const reviewHandler = async (e) => {
