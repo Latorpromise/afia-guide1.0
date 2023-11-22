@@ -59,12 +59,6 @@ const ProductCard = ({ data,isEvent }) => {
       }
     }
   };
-  const formatPrice = (num) => {
-    let [integerPart, decimalPart] = num.toString().split('.');
-    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
-  };
-  
 
   return (
     <>
@@ -93,12 +87,12 @@ const ProductCard = ({ data,isEvent }) => {
             <div className="flex">
               <h5 className={`${styles.productDiscountPrice}`}>
               ₦ {data.originalPrice === 0
-                  ? formatPrice(data.originalPrice)
-                  : formatPrice(data.discountPrice)}
+                  ? data.originalPrice
+                  : data.discountPrice}
                 
               </h5>
               <h4 className={`${styles.price}`}>
-                {"₦" + formatPrice(data.originalPrice) ? formatPrice(data.originalPrice) : null}
+                {"₦" + data.originalPrice ? data.originalPrice   : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">
