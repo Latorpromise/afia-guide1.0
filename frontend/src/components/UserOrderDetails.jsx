@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 const UserOrderDetails = () => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const { orders } = useSelector((state) => state.order);
+  const [click, setClick] = useState(false);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
