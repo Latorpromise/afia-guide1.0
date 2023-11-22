@@ -96,12 +96,9 @@ const Cart = ({ setOpenCart }) => {
 
 const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
   const [value, setValue] = useState(data.qty);
-  const formatPrice = (num) => {
-    let [integerPart, decimalPart] = num.toString().split('.');
-    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
-  };
-  
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   const totalPrice = data.discountPrice * value;
 
@@ -149,7 +146,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           <h4 className="font-[400] text-[15px] text-[#00000082]">
             ${data.discountPrice} * {value}
           </h4>
-          <h4 className="font-[600] text-[16px] pt-[3px] text-[#d02222] font-Roboto">
+          <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
             {formatPrice(totalPrice)}
           </h4>
         </div>
