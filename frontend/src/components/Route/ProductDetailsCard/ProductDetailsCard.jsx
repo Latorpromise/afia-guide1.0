@@ -15,53 +15,16 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../../redux/actions/wishlist";
-import { server } from "../../../server";
-import { getAllProductsShop } from "../../../redux/actions/product";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-
-
-
 
 const ProductDetailsCard = ({ setOpen, data }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
-  const { user, isAuthenticated } = useSelector((state) => state.user);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   //   const [select, setSelect] = useState(false);
-  useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
-    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
-      setClick(true);
-    } else {
-      setClick(false);
-    }
-  }, [data, wishlist]);
 
-  const handleMessageSubmit = async () => {
-    if (isAuthenticated) {
-      const groupTitle = data._id + user._id;
-      const userId = user._id;
-      const sellerId = data.shop._id;
-      await axios
-        .post(`${server}/conversation/create-new-conversation`, {
-          groupTitle,
-          userId,
-          sellerId,
-        })
-        .then((res) => {
-          navigate(`/inbox?${res.data.conversation._id}`);
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
-    } else {
-      toast.error("Please login to create a conversation");
-    }
-  };
+  const handleMessageSubmit = () => {};
 
   const decrementCount = () => {
     if (count > 1) {
@@ -88,13 +51,13 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (wishlist && wishlist.find((i) => i._id === data._id)) {
-  //     setClick(true);
-  //   } else {
-  //     setClick(false);
-  //   }
-  // }, [wishlist]);
+  useEffect(() => {
+    if (wishlist && wishlist.find((i) => i._id === data._id)) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [wishlist]);
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
