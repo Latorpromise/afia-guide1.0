@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsFillBagFill } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { getAllProductsShop } from "../../redux/actions/product";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/styles";
 import { getAllOrdersOfUser } from "../redux/actions/order";
@@ -26,6 +27,10 @@ const UserOrderDetails = () => {
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
+
+  useEffect(() => {
+    dispatch(getAllProductsShop(shop._id));
+  }, [dispatch, shop._id]);
 
   const data = orders && orders.find((item) => item._id === id);
 
