@@ -29,8 +29,8 @@ const UserOrderDetails = () => {
   }, [dispatch, user._id]);
 
   useEffect(() => {
-    dispatch(getAllProductsShop(shop._id));
-  }, [dispatch, shop._id]);
+    dispatch(getAllProductsShop(data && data?.shop._id));
+  }, [data]);
 
   const data = orders && orders.find((item) => item._id === id);
 
