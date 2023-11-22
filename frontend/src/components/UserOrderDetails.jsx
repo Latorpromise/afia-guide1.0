@@ -12,31 +12,25 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const UserOrderDetails = () => {
-  const { wishlist } = useSelector((state) => state.wishlist);
   const { orders } = useSelector((state) => state.order);
-  const [click, setClick] = useState(false);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
-  const [rating, setRating] = useState(1); 
+  const [rating, setRating] = useState(1);
   const navigate = useNavigate();
 
 
   const { id } = useParams();
-  useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
-    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
-      setClick(true);
-    } else {
-      setClick(false);
-    }
-  }, [data, wishlist]);
 
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
+
+  useEffect(() => {
+    dispatch(getAllProductsShop(shop._id));
+  }, [dispatch, shop._id]);
 
   const data = orders && orders.find((item) => item._id === id);
 
