@@ -10,7 +10,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const UserOrderDetails = () => {
+const UserOrderDetails = ({bata}) => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const UserOrderDetails = () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
-      const sellerId = data.shop._id;
+      const sellerId = bata.shop._id;
       await axios
         .post(`${server}/conversation/create-new-conversation`, {
           groupTitle,
