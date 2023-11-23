@@ -34,7 +34,7 @@ const UserOrderDetails = () => {
     dispatch(getAllProductsShop(data && data?.shop._id));
   }, [dispatch, seller._id]);
 
-  const data = orders && orders.find((item) => item._id === id) || data;
+  const data = orders && orders.find((item) => item._id === id);
 
   const handleMessageSubmit = async () => {
     if (isAuthenticated) {
