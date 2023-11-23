@@ -10,7 +10,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const UserOrderDetails = ({data}) => {
+const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const UserOrderDetails = ({data}) => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
 
-  // const data = orders && orders.find((item) => item._id === id);
+  const data = orders && orders.find((item) => item._id === id) || data;
 
   const handleMessageSubmit = async () => {
     if (isAuthenticated) {
