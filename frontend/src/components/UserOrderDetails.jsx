@@ -9,13 +9,10 @@ import { RxCross1 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { getAllProductsShop } from "../redux/actions/product";
-
 
 const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -30,17 +27,13 @@ const UserOrderDetails = () => {
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
 
-  useEffect(() => {
-    dispatch(getAllProductsShop(seller._id));
-  }, [dispatch, seller._id]);
-
   const data = orders && orders.find((item) => item._id === id);
 
   const handleMessageSubmit = async () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
-      const sellerId = seller._id;
+      const sellerId = data.shop._id;
       await axios
         .post(`${server}/conversation/create-new-conversation`, {
           groupTitle,
