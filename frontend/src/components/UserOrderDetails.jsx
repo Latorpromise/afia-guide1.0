@@ -31,7 +31,7 @@ const UserOrderDetails = () => {
   }, [dispatch, user._id]);
 
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
+    dispatch(getAllProductsShop(seller._id));
   }, [dispatch, seller._id]);
 
   const data = orders && orders.find((item) => item._id === id);
@@ -40,7 +40,7 @@ const UserOrderDetails = () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
-      const sellerId = seller?._id;
+      const sellerId = seller._id;
       await axios
         .post(`${server}/conversation/create-new-conversation`, {
           groupTitle,
