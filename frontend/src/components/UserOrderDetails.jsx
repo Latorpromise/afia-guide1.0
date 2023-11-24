@@ -22,6 +22,7 @@ const UserOrderDetails = () => {
   const navigate = useNavigate();
 
 
+  const { id } = useParams();
 
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
