@@ -22,15 +22,13 @@ const UserOrderDetails = () => {
   const navigate = useNavigate();
 
 
-  const { id } = useParams();
 
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
-  }, [dispatch, user._id]);
-
-  useEffect(() => {
     dispatch(getAllOrdersOfShop(seller._id));
   }, [dispatch]);
+
+
 
   const data = orders && orders.find((item) => item._id === id);
 
@@ -38,7 +36,7 @@ const UserOrderDetails = () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
-      const sellerId = seller._id;
+      const sellerId =  seller._id;
       await axios
         .post(`${server}/conversation/create-new-conversation`, {
           groupTitle,
