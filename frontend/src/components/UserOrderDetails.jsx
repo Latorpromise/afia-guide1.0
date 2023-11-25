@@ -25,9 +25,12 @@ const UserOrderDetails = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
     dispatch(getAllOrdersOfUser(user._id));
-  }, [dispatch]);
+  }, [dispatch,user._id]);
+
+  useEffect(() => {
+    dispatch(getAllProductsShop(data && data?.shop._id));
+  }, [data]);
 
 
 
