@@ -3,12 +3,13 @@ import { BsFillBagFill } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/styles";
-import { getAllOrdersOfShop, getAllOrdersOfUser } from "../redux/actions/order";
+import { getAllOrdersOfUser } from "../redux/actions/order";
 import { server } from "../server";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { getAllProductsShop } from "../redux/actions/product";
 
 const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
@@ -26,8 +27,8 @@ const UserOrderDetails = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
-    dispatch(getAllOrdersOfShop(seller._id));
-  }, [dispatch, user._id, seller._id]);
+    dispatch(getAllProductsShop(id));
+  }, [dispatch]);
 
 
 
@@ -37,7 +38,7 @@ const UserOrderDetails = () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
-      const sellerId =  seller._id;
+      const sellerId = data.shop._id;
       await axios
         .post(`${server}/conversation/create-new-conversation`, {
           groupTitle,
@@ -54,6 +55,7 @@ const UserOrderDetails = () => {
       toast.error("Please login to create a conversation");
     }
   };
+
 
   const reviewHandler = async (e) => {
     await axios
