@@ -14,7 +14,6 @@ import { getAllProductsShop } from "../redux/actions/product";
 const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -27,6 +26,9 @@ const UserOrderDetails = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
+  }, [dispatch,user._id]);
+
+  useEffect(() => {
     dispatch(getAllProductsShop(id));
   }, [dispatch]);
 
