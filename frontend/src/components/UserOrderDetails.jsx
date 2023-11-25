@@ -11,7 +11,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { getAllProductsShop } from "../redux/actions/product";
 
-const UserOrderDetails = ({data}) => {
+const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -29,8 +29,8 @@ const UserOrderDetails = ({data}) => {
   }, [dispatch,user._id]);
 
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data?.shop._id));
-  }, [data]);
+    dispatch(getAllProductsShop(shop._id));
+  }, [dispatch, shop._id]);
 
 
 
