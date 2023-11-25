@@ -11,7 +11,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { getAllProductsShop } from "../redux/actions/product";
 
-const UserOrderDetails = () => {
+const UserOrderDetails = ({data}) => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
