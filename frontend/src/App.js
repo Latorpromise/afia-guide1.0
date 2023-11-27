@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
@@ -60,7 +60,21 @@ import axios from "axios";
 import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import ScrollToTop from "./components/ScrollTotop.jsx";
+
+const ScrollToTop = ({ children }) => {
+  // Get the current location object
+  const location = useLocation();
+
+  // Run this function whenever the location changes
+  useEffect(() => {
+    // Scroll to the top of the window
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  // Return the children components
+  return children;
+};
+
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
@@ -79,7 +93,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {stripeApikey && (
+    <ScrollToTop>
+    {stripeApikey && (
         <Elements stripe={loadStripe(stripeApikey)}>
           <Routes>
             <Route
@@ -93,7 +108,6 @@ const App = () => {
           </Routes>
         </Elements>
       )}
-      <ScrollToTop>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -319,7 +333,6 @@ const App = () => {
           }
         />
       </Routes>
-      </ScrollToTop>
       <ToastContainer
         position="bottom-center"
         autoClose={5000}
@@ -332,6 +345,9 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
+
+    </ScrollToTop>
+
     </BrowserRouter>
   );
 };
