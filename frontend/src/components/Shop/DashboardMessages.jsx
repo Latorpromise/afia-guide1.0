@@ -54,7 +54,7 @@ const DashboardMessages = () => {
 
         setConversations(resonse.data.conversations);
       } catch (error) {
-        // console.log(error);
+        console.log(error);
       }
     };
     getConversation();
@@ -315,7 +315,7 @@ const MessageList = ({
         <p className="text-[16px] text-[#000c]">
           {!isLoading && data?.lastMessageId !== user?._id
             ? "You:"
-            : user?.name.split(" ")[0] + ": "}{" "}
+            : user?.name.toString().split(" ")[0] + ": "}{" "}
           {data?.lastMessage}
         </p>
       </div>
