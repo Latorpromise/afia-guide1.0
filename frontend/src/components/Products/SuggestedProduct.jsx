@@ -6,11 +6,13 @@ import ProductCard from "../Route/ProductCard/ProductCard";
 const SuggestedProduct = ({ data }) => {
   const { allProducts } = useSelector((state) => state.products);
   const [productData, setProductData] = useState();
+  
 
   useEffect(() => {
     const d =
       allProducts && allProducts.filter((i) => i.category === data.category);
     setProductData(d);
+    window.reload();
   }, []);
 
   return (
