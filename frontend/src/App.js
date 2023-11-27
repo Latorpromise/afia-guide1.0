@@ -60,6 +60,7 @@ import axios from "axios";
 import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import ScrollToTop from "./components/ScrollTotop.jsx";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
@@ -92,6 +93,7 @@ const App = () => {
           </Routes>
         </Elements>
       )}
+      <ScrollToTop>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -317,6 +319,7 @@ const App = () => {
           }
         />
       </Routes>
+      </ScrollToTop>
       <ToastContainer
         position="bottom-center"
         autoClose={5000}
