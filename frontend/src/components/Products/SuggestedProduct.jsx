@@ -12,8 +12,8 @@ const SuggestedProduct = ({ data }) => {
     const d =
       allProducts && allProducts.filter((i) => i.category === data.category);
     setProductData(d);
-    window.location.reload ();
-    }, [location]);
+    window.location.reload (true);
+    }, []);
 
   return (
     <div>
