@@ -14,7 +14,6 @@ import { getAllProductsShop } from "../redux/actions/product";
 const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -26,6 +25,7 @@ const UserOrderDetails = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    dispatch(getAllProductsShop(id));
     dispatch(getAllOrdersOfUser(user._id));
   }, [dispatch, user._id]);
   
@@ -267,11 +267,12 @@ const UserOrderDetails = () => {
         </div>
       </div>
       <br />
-      <Link to={(`/inbox?${res.data.conversation._id}`)}>
-        <div className={`${styles.button} text-white`}>Send Message</div>
-      </Link>
-      
-
+      <div
+        className={`${styles.button} text-white`}
+        onClick={handleMessageSubmit}
+      >
+        Send Message
+      </div>
       <br />
       <br />
     </div>
