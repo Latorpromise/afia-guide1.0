@@ -315,7 +315,7 @@ const MessageList = ({
         <p className="text-[16px] text-[#000c]">
           {!isLoading && data?.lastMessageId !== user?._id
             ? "You:"
-            : user?.name.toString().split(" ")[0] + ": "}{" "}
+            : user?.name + ": "}{" "}
           {data?.lastMessage}
         </p>
       </div>
