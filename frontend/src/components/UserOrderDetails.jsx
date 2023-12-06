@@ -267,12 +267,13 @@ const UserOrderDetails = () => {
         </div>
       </div>
       <br />
+      <Link to="/inbox">
       <div
         className={`${styles.button} text-white`}
-        onClick={handleMessageSubmit}
       >
         Send Message
       </div>
+      </Link>
       <br />
       <br />
     </div>
