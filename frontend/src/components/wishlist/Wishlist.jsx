@@ -72,6 +72,9 @@ const Wishlist = ({ setOpenWishlist }) => {
 const CartSingle = ({ data,removeFromWishlistHandler,addToCartHandler }) => {
   const [value, setValue] = useState(1);
   const totalPrice = data.discountPrice * value;
+  function formatPrice(price) {
+    return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   return (
     <div className="border-b p-4">
@@ -88,7 +91,7 @@ const CartSingle = ({ data,removeFromWishlistHandler,addToCartHandler }) => {
         <div className="pl-[5px]">
           <h1>{data.name}</h1>
           <h4 className="font-[600] pt-3 800px:pt-[3px] text-[17px] text-[#d02222] font-Roboto">
-            US${totalPrice}
+          ₦{formatPrice(totalPrice)}
           </h4>
         </div>
         <div>

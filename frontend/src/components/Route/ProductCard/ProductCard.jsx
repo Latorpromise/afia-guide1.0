@@ -60,6 +60,9 @@ const ProductCard = ({ data,isEvent }) => {
     }
   };
   
+  function formatPrice(price) {
+    return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   return (
     <>
@@ -93,7 +96,7 @@ const ProductCard = ({ data,isEvent }) => {
                  
               </h5>
               <h4 className={`${styles.price}`}>
-                {" ₦ " + data.originalPrice ? data.originalPrice   : null}
+                {" ₦ " + data.originalPrice ? formatPrice(data.originalPrice)   : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">
