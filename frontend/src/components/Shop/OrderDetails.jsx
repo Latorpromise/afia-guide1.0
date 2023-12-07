@@ -61,6 +61,9 @@ const OrderDetails = () => {
 
   console.log(data?.status);
 
+  function formatPrice(price) {
+    return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   return (
     <div className={`py-4 min-h-screen ${styles.section}`}>
@@ -101,7 +104,7 @@ const OrderDetails = () => {
             <div className="w-full">
               <h5 className="pl-3 text-[20px]">{item.name}</h5>
               <h5 className="pl-3 text-[20px] text-[#00000091]">
-              ₦{item.discountPrice} x {item.qty}
+              ₦{formatPrice(item.discountPrice)} x {item.qty}
               </h5>
             </div>
           </div>
@@ -109,7 +112,7 @@ const OrderDetails = () => {
 
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
-          Total Price: <strong>₦{data?.totalPrice}</strong>
+          Total Price: <strong>₦{data?.formatPrice(totalPrice)}</strong>
         </h5>
       </div>
       <br />
