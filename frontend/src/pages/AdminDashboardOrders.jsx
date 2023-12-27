@@ -55,12 +55,15 @@ const AdminDashboardOrders = () => {
   ];
 
   const row = [];
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   adminOrders &&
     adminOrders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
-        total: item?.totalPrice + " $",
+        total: formatPrice(item?.totalPrice) ,
         status: item?.status,
         createdAt: item?.createdAt.slice(0,10),
       });
