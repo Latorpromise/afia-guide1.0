@@ -24,7 +24,7 @@ const AdminDashboardMain = () => {
    const adminEarning = adminOrders && adminOrders.reduce((acc,item) => acc + item.totalPrice * .10, 0);
    
 
-   const adminBalance = '₦ ' + adminEarning.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+   const adminBalance = '₦ ' + adminEarning?.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
