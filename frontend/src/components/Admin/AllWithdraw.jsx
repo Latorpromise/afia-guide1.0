@@ -93,6 +93,9 @@ const AllWithdraw = () => {
   };
 
   const row = [];
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   data &&
     data.forEach((item) => {
@@ -100,7 +103,7 @@ const AllWithdraw = () => {
         id: item._id,
         shopId: item.seller._id,
         name: item.seller.name,
-        amount: "₦ " + item.amount,
+        amount: formatPrice(item?.amount),
         status: item.status,
         createdAt: item.createdAt.slice(0, 10),
       });
