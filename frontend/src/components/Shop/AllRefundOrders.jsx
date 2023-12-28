@@ -71,13 +71,16 @@ const AllRefundOrders = () => {
   ];
 
   const row = [];
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   refundOrders &&
   refundOrders.forEach((item) => {
       row.push({
         id: item._id,
         itemsQty: item.cart.length,
-        total: "₦ " + item.totalPrice,
+        total: formatPrice(item?.totalPrice),
         status: item.status,
       });
     });
