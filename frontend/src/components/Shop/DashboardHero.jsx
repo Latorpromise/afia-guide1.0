@@ -20,7 +20,7 @@ const DashboardHero = () => {
      dispatch(getAllProductsShop(seller._id));
   }, [dispatch]);
 
-  const availableBalance = seller?.availableBalance.toFixed(2);
+  const availableBalance = seller?.availableBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -74,12 +74,15 @@ const DashboardHero = () => {
   ];
 
   const row = [];
+  const formatPrice = (price) => {
+    return '₦ ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   orders && orders.forEach((item) => {
     row.push({
         id: item._id,
         itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
-        total: "₦ " + item.totalPrice,
+        total: formatPrice(item?.totalPrice),
         status: item.status,
       });
   });
@@ -101,7 +104,7 @@ const DashboardHero = () => {
               <span className="text-[16px]">(with 10% service charge)</span>
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">₦{availableBalance}</h5>
+          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">₦ {availableBalance}</h5>
           <Link to="/dashboard-withdraw-money">
             <h5 className="pt-4 pl-[2] text-[#077f9c]">Withdraw Money</h5>
           </Link>
