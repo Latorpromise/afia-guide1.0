@@ -91,12 +91,12 @@ const ProductCard = ({ data,isEvent }) => {
             <div className="flex">
               <h5 className={`${styles.productDiscountPrice}`}>
               ₦ {data.originalPrice === 0
-                  ? data.originalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                  : data.discountPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  ? data.originalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  : data.discountPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                  
               </h5>
               <h4 className={`${styles.price}`}>
-               {data.originalPrice ? "₦" + data.originalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')   : null}
+               {data.originalPrice ? "₦" + data.originalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')   : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">
