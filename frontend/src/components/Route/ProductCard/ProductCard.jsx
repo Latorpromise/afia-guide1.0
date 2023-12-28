@@ -92,11 +92,11 @@ const ProductCard = ({ data,isEvent }) => {
               <h5 className={`${styles.productDiscountPrice}`}>
               ₦ {data.originalPrice === 0
                   ? data.originalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                  : data.discountPrice}
+                  : data.discountPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                  
               </h5>
               <h4 className={`${styles.price}`}>
-                {data.originalPrice ? data.originalPrice   : null}
+                {data.originalPrice ? data.originalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')   : null}
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">
